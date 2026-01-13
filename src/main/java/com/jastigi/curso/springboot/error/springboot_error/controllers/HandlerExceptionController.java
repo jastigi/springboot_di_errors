@@ -1,6 +1,8 @@
 package com.jastigi.curso.springboot.error.springboot_error.controllers;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +26,19 @@ public class HandlerExceptionController {
 
         // return ResponseEntity.internalServerError().body(error);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
+
+    }
+
+    @ExceptionHandler(NumberFormatException.class)
+    public Map<String, String> numberFormatException(NumberFormatException ex) {
+
+        Map<String, String> error = new HashMap<>();
+        error.put("message", ex.getMessage());
+        error.put("error", "Número inválido o incorrecto, no tiene formato correcto!!");
+        error.put("status", String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR.value()));
+        error.put("timestamp", new Date().toString());
+
+        return error;
 
     }
 
